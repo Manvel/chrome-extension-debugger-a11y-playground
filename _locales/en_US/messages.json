@@ -1,0 +1,10 @@
+{
+   "chrome_extension_name": {
+      "description": "Extension name",
+      "message": "Debugger playground"
+   },
+   "chrome_extension_description": {
+      "description": "Extension description",
+      "message": "Debugger and a11y playground"
+   }
+}
