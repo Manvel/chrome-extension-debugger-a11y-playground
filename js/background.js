@@ -12,6 +12,11 @@ chrome.runtime.onMessage.addListener(
         await attachDebuggerToActiveTab();
         const partialTree = await getPartialAccessibilityTree(request.input);
         console.log(`Tree for ${request.input} selector`, partialTree);
+        break;
+      case "queryAXTree":
+        await attachDebuggerToActiveTab();
+        const queryResult = await queryAccessibilityTree(request.input, request.inputSec);
+        console.log(`Query result for A11Y Name ${request.input} and Role ${request.inputSec}`, queryResult);
       default:
     }
     if (request.action === "getFullAXTree")
@@ -22,13 +27,6 @@ chrome.runtime.onMessage.addListener(
     }
   }
 );
-
-chrome.debugger.onEvent.addListener(function (source, method, params) {
-  if (method === 'Network.responseReceived') {
-    console.log('Response received:', params.response);
-    // Perform your desired action with the response data
-  }
-});
 
 function getCurrentTab() {
   return new Promise((res) => {
@@ -89,13 +87,25 @@ async function getElementByCssSelector(cssSelector) {
 
 async function getPartialAccessibilityTree(cssSelector) {
   const node = await getElementByCssSelector(cssSelector);
-  console.log("node", node);
   const tab = await getCurrentTab();
   return new Promise((res) => {
     chrome.debugger.sendCommand(
       { tabId: tab.id },
       'Accessibility.getPartialAXTree',
       { nodeId: node.nodeId },
+      res
+    );
+  });
+}
+
+async function queryAccessibilityTree(accessibleName, role) {
+  const tab = await getCurrentTab();
+  const documentNode = await getDocumentNode();
+  return new Promise((res) => {
+    chrome.debugger.sendCommand(
+      { tabId: tab.id },
+      'Accessibility.queryAXTree',
+      { nodeId: documentNode.root.nodeId, accessibleName, role },
       res
     );
   });

@@ -6,8 +6,20 @@
 		<script type="text/javascript" src="js/ui/popup.js" defer></script>
 	</head>
 	<body>
-		<button data-action="getFullAXTree">getFullAXTree</button>
-		<input id="cssQuery" type="text" placeholder="CSS query on page">
-		<button data-action="getPartialAXTree" data-input="#cssQuery">getPartialAXTree</button>
+		<p>
+			<h2>Get full Accessibility tree of the page</h2>
+			<button data-action="getFullAXTree">getFullAXTree</button>
+		</p>
+		<p>
+			<h2>Get partial accessibility tree of the page using CSS query</h2>
+			<input id="cssQuery" type="text" placeholder="CSS query on page" autocomplete="off">
+			<button data-action="getPartialAXTree" data-input="#cssQuery">getPartialAXTree</button>
+		</p>
+		<p>
+			<h2>Query accessibility tree of the page</h2>
+			<input id="name" type="text" placeholder="Accessible name" autocomplete="off">
+			<input id="role" type="text" placeholder="Accessible role" autocomplete="off">
+			<button data-action="queryAXTree" data-input="#name" data-input-secondary="#role">queryAXTree</button>
+		</p>
 	</body>
 </html>

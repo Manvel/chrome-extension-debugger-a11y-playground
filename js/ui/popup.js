@@ -3,10 +3,12 @@ document.querySelectorAll("[data-action]").forEach((actionBtn) => {
     const action = actionBtn.dataset.action;
     let input = actionBtn.dataset.input;
     if (input) {
-      input = document.querySelector(input).value;
+      input = document.querySelector(input).value || null;
     }
-    void chrome.runtime.sendMessage({action, input});
+    let inputSec = actionBtn.dataset.inputSecondary;
+    if (inputSec) {
+      inputSec = document.querySelector(inputSec).value || null;
+    }
+    void chrome.runtime.sendMessage({action, input, inputSec});
   });
 });
-
-
